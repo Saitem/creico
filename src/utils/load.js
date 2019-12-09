@@ -1,9 +1,8 @@
-// export const uplaod = (e, ctx, cw, ch) => {
+// export const onChange = (e, ctx, cw, ch) => {
 //     const reader = new FileReader()
 
 //     reader.onload = ev => {
 //         const img = new Image()
-        
 //         img.onload = () => {
 //             cw = img.width
 //             ch = img.height

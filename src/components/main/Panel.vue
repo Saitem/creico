@@ -4,8 +4,9 @@
     <img src="https://cdn2.iconfinder.com/data/icons/office-38/24/office-46-256.png" @click="clear" alt="image-clear-rubber" />
     <div class="w-100"></div>
     <img src="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519672-178_Download-256.png" @click="download" alt="image-download" />
-    
-    
+    <div class="w-100"></div>
+    <img src="" alt="">
+
   </div>
 </template>
 
@@ -31,9 +32,9 @@ import { bus } from '@/bus/bus'
 </script>
 
 <style lang="scss" scoped>
-   .panel{
-       background-color: blue;
-   }
+  //  .panel{
+  //      background-color: blue;
+  //  }
   img{
     width: 30px;
   }

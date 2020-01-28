@@ -1,8 +1,12 @@
 <template>
-    <mdb-container fluid class="main">
+    <mdb-container fluid>
         <mdb-row>
             <mdb-col md='1'><Panel/></mdb-col>
-            <mdb-col md="10"><DrawPad/></mdb-col>
+            <mdb-col md="10">
+                <mdb-row class="justify-content-center">
+                    <DrawPad class="drawpad"/>
+                </mdb-row>
+            </mdb-col>
         </mdb-row>
     </mdb-container>
 </template>
@@ -25,11 +29,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .main{
-        mdb-row{
-            margin: 0;
-            padding: 0;
-        }
-        // padding-top: 30px;
+    .drawpad{
+        border: 2px solid grey;
+       
     }
 </style>

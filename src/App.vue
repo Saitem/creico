@@ -1,18 +1,21 @@
 <template>
   <div id="app">
       <Header/>
-      <mainshell/>
+       <router-view class='main' />
+        <!-- <mainshell/> -->
       <Footer/>
-    <router-view/>
+    <!-- <router-view/> -->
   </div>
 </template>
 
 <script>
 import Header from '@/components/layouts/Header'
-import mainshell from '@/components/mainshell'
+// import mainshell from '@/components/mainshell'
 import Footer from '@/components/layouts/Footer'
+// import FormCreate from '@/components/main/FormCreate'
+
 export default {
-  components: {Header, mainshell, Footer}
+  components: {Header,/* mainshell,*/ Footer, /*FormCreate*/}
 }
 </script>
 
@@ -22,5 +25,8 @@ export default {
 $image-path: '~@/../mdb/mdbvue/img';
 @import '~@/../mdb/mdbvue/scss/mdb-free.scss';
 
+.main { 
+  padding-top: 30px;
+}
 
 </style>

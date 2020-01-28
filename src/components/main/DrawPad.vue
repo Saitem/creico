@@ -1,14 +1,11 @@
 <template>
-    <div class="main container w-100 p-3 z-depth-1">
         <canvas 
-        ref="canv"
-        @mousemove="mousemove"
-        @mousedown="mousedown"
-        @mouseup="mouseup"
-        />
-        <!-- <button @click='clear'>clear</button> -->
-        <!-- <button @click="download">Download</button> -->
-    </div>
+            ref="canv"
+            @mousemove="mousemove"
+            @mousedown="mousedown"
+            @mouseup="mouseup"
+            @click="history"
+        />  
 </template>
 
 <script>
@@ -17,6 +14,7 @@ import { clear } from '@/utils/clear'
 import { download } from '@/utils/load'
 import { bus } from '@/bus/bus.js'
 
+
 export default {
     data:() => ({ 
         canv: null,
@@ -24,26 +22,68 @@ export default {
         isDraw: false,
         startX: 0,
         startY: 0,
-        isBtn: null
+        isBtn: null,
+        arrayPictures: ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABFQAAAKcCAYAAADGlu6zAAAREklEQVR4nO3YMQ0AMAzAsPInvWLINVWyEeTOPAAAAACS+R0AAAAAcI2hAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAAJGhAgAAABAZKgAAAACRoQIAAAAQGSoAAAAAkaECAAAAEBkqAAAAANEClHE2X73igFMAAAAASUVORK5CYII="],
+        step: 0,
+        colorBrush: '',
+        sizeBrush: 10,
     }),
 
-    mounted(){
-        this.canv = this.$refs.canv
-        this.ctx = this.canv.getContext('2d')
-        this.canv.width = this.canv.offsetWidth
-        this.canv.height = this.canv.offsetHeight
-    },
-
     created() {
+        bus.$on('sizer', data => {
+            this.sizeBrush = data
+        })
+
+        bus.$on('color', data => {
+            this.colorBrush = data
+        })
+
         bus.$on('clear', data => {
             this.isBtn = data
-            if (this.isBtn) clear(this.ctx, this.canv.width, this.canv.height)
+            if (this.isBtn) {
+                clear(this.ctx, this.canv.width, this.canv.height)
+                this.arrayPictures = []
+            }
         })
 
         bus.$on('download', data => {
             this.isBtn = data
             if (this.isBtn) download(this.canv)
         })
+
+        bus.$on('undo', data => {
+            this.isBtn = data
+            if (this.isBtn) this.undo()
+        })
+
+        bus.$on('redo', data => {
+            this.isBtn = data
+            if (this.isBtn) this.redo()
+        })
+
+        bus.$on('sendData', data => {
+            this.widthPad = data
+        })
+    },
+
+
+    mounted(){
+        this.canv = this.$refs.canv
+        this.ctx = this.canv.getContext('2d')
+        this.canv.width = this.canvasWidth == 0 ? this.canv.offsetWidth : this.canvasWidth
+        this.canv.height = this.canvasHeight == 0 ? this.canv.offsetWidth : this.canvasHeight
+        this.ctx.fillStyle = 'white'
+        this.ctx.fillRect(0, 0, this.canv.width, this.canv.height)
+    },  
+
+    computed: {
+        canvasWidth(){
+            return this.$store.state.canvasWidth
+        },
+
+        canvasHeight() {
+            return this.$store.state.canvasHeight
+        }
     },
 
     methods: {
@@ -53,10 +93,10 @@ export default {
                 this.ctx.beginPath()
                 this.ctx.moveTo(this.startX, this.startY)
                 this.ctx.lineTo(x, y)
-                this.ctx.lineWidth = 10
+                this.ctx.lineWidth = this.sizeBrush
                 this.ctx.lineCap = 'round'
                 this.ctx.lineJoin = 'round'
-                this.ctx.strokeStyle = 'black'
+                this.ctx.strokeStyle = this.colorBrush  
                 this.ctx.stroke()
 
                 this.startX = x
@@ -72,7 +112,7 @@ export default {
             this.startX = x
             this.startY = y
         },
-
+         
         mouseup(e){
             let [x, y] = getCoords(e, this.canv)
             x = 0
@@ -84,21 +124,44 @@ export default {
             }
         },
 
-    //    download(){
-    //        download(this.canv)
-    //    },
+        history() {
+            this.step += 1
+            if(this.step <= this.arrayPictures.length) this.step = this.arrayPictures.length
+            this.arrayPictures.push(this.canv.toDataURL())
+        },
+
+        undo() {
+            if(this.step > 0) {
+                this.step--
+                let picture = new Image()
+                picture.src = this.arrayPictures[this.step]
+                picture.onload = () => this.ctx.drawImage(picture, 0, 0)
+            }
+        },
+
+        redo() {
+            if(this.step < this.arrayPictures.length - 1) {
+                this.step++
+                let picture = new Image()
+                picture.src = this.arrayPictures[this.step]
+                picture.onload = () => this.ctx.drawImage(picture, 0, 0)
+            }
+        }
     },
-   
-    
 }
 </script>
 
-<style lang="scss">
-.main {
-    height: 700px;
-    canvas{
-        width: 100%;
-        height: 100%;
-    }
-}
-</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,6 @@
 <template>
      <mdb-navbar class="#7b1fa2 purple darken-2" dark>
-    <mdb-navbar-brand href="#">
+    <mdb-navbar-brand to="/">
       Creico
     </mdb-navbar-brand>
     <mdb-navbar-toggler>

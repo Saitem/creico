@@ -1,7 +1,7 @@
 <template>
     <mdb-container>
         <mdb-row class="justify-content-center pt-20">
-            <mdb-col  md='10'>
+            <mdb-col md='10'>
             <mdb-card class="purple-text grey lighten-4">
                 <mdb-card-header class="pt-4 white">
                 <mdb-card-title><strong>Reservation</strong></mdb-card-title>
@@ -15,8 +15,12 @@
                 </mdb-row>
                 </mdb-card-body>
                 <mdb-card-footer class="d-flex white justify-content-end">
-                  <button @click='dispSize'></button>
-                  <router-link to="/drawpad">drawpad</router-link>
+                  <mdb-btn 
+                    @click='dispSize' 
+                    color="secondary"
+                  >
+                  Go to drawpad
+                  </mdb-btn>
                 </mdb-card-footer>
             </mdb-card>
             
@@ -26,7 +30,7 @@
 </template>
 
 <script>
-import {mdbContainer, mdbRow,  mdbCol, mdbInput, mdbCard, mdbCardHeader, mdbCardTitle, mdbCardFooter, mdbCardBody } from 'mdbvue';
+import {mdbContainer, mdbRow,  mdbCol, mdbInput, mdbCard, mdbCardHeader, mdbCardTitle, mdbCardFooter, mdbCardBody, mdbBtn } from 'mdbvue';
 
   export default {
     name: 'FormCreate',
@@ -39,7 +43,8 @@ import {mdbContainer, mdbRow,  mdbCol, mdbInput, mdbCard, mdbCardHeader, mdbCard
       mdbCardBody,
       mdbCardHeader,
       mdbCardFooter,
-      mdbCardTitle
+      mdbCardTitle,
+      mdbBtn
     },
     data() {
       return {
@@ -52,6 +57,7 @@ import {mdbContainer, mdbRow,  mdbCol, mdbInput, mdbCard, mdbCardHeader, mdbCard
       dispSize() {
         this.$store.commit('canvasWidth', this.width)
         this.$store.commit('canvasHeight', this.height)
+        this.$router.push('drawpad')
       }
     }
   }
